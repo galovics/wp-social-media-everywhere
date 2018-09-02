@@ -6,8 +6,8 @@ jQuery(document).ready(function($) {
 		  self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
 		  self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
 		];
-		let html = jQuery('html'); // it would make more sense to apply this to body, but IE7 won't have that
-		html.data('$-position', scrollPosition);
+		let html = $('html');
+		html.data('scroll-position', scrollPosition);
 		html.data('previous-overflow', html.css('overflow'));
 		html.css('overflow', 'hidden');
 		window.scrollTo(scrollPosition[0], scrollPosition[1]);
