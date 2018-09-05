@@ -2,22 +2,14 @@ jQuery(document).ready(function($) {
 	setPopupAlreadyShown(false);
 
 	function lockScrolling() {
-		let scrollPosition = [
-		  self.pageXOffset || document.documentElement.scrollLeft || document.body.scrollLeft,
-		  self.pageYOffset || document.documentElement.scrollTop  || document.body.scrollTop
-		];
 		let html = $('html');
-		html.data('scroll-position', scrollPosition);
 		html.data('previous-overflow', html.css('overflow'));
 		html.css('overflow', 'hidden');
-		window.scrollTo(scrollPosition[0], scrollPosition[1]);
 	}
 
 	function unlockScrolling() {
 		let html = $('html');
-		let scrollPosition = html.data('scroll-position');
 		html.css('overflow', html.data('previous-overflow'));
-		window.scrollTo(scrollPosition[0], scrollPosition[1])
 	}
 
 	function setPopupAlreadyShown(booleanValue) {
