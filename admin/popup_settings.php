@@ -2,7 +2,7 @@
 
 final class SocialMediaEverywherePopupSettings {
     public function __construct() {
-        add_action('admin_init', array($this, 'register_settings'));
+        add_action('admin_init', array($this, 'registerSettings'));
     }
 
     public function getHeaderLabel() {
@@ -22,7 +22,7 @@ final class SocialMediaEverywherePopupSettings {
 	<?php
     }
 
-	public function register_settings() {
+	public function registerSettings() {
 	   add_option(SME_TWITTER_ACCOUNT, '');
 	   register_setting(SME_OPTIONS_GROUP, SME_TWITTER_ACCOUNT);
 	}

@@ -1,5 +1,15 @@
 jQuery(document).ready(function($) {
-	setPopupAlreadyShown(false);
+	const dataKey = 'social-media-everywhere-popup-shown';
+
+	if (isStorageAvailable()) {
+		const popupValue = localStorage.getItem(dataKey);
+		if (popupValue == null) {
+			setPopupAlreadyShown(false);
+		}
+	} else {
+		setPopupAlreadyShown(false);
+	}
+	
 
 	function lockScrolling() {
 		let html = $('html');
@@ -13,11 +23,24 @@ jQuery(document).ready(function($) {
 	}
 
 	function setPopupAlreadyShown(booleanValue) {
-		$('html').data('social-media-everywhere-popup-shown', booleanValue);
+		if (isStorageAvailable()) {
+			localStorage.setItem(dataKey, booleanValue);
+		} else {
+			$('html').data(dataKey, booleanValue);	
+		}
 	}
 
 	function isPopupAlreadyShown() {
-		return $('html').data('social-media-everywhere-popup-shown');
+		if (isStorageAvailable()) {
+			return parseBoolean(localStorage.getItem(dataKey));
+		} else {
+			return $('html').data(dataKey);
+		}
+	}
+
+	function isStorageAvailable() {
+		//return false;
+		return typeof(Storage) !== "undefined";
 	}
 
 	function showPopupIfNecessary() {
@@ -34,7 +57,6 @@ jQuery(document).ready(function($) {
 	    }
 	}
 
-	showPopupIfNecessary();
 
 	$(window).on('click', function(e) {
 		let element = $('#social-media-everywhere-modal')
@@ -44,10 +66,12 @@ jQuery(document).ready(function($) {
 		}
 	});
 	
-
+	showPopupIfNecessary();
 	$(window).scroll(function() {
 		showPopupIfNecessary();
 	});
 
-
+	function parseBoolean(s) {
+		return s === 'true';
+	}
 });
