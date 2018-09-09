@@ -5,10 +5,12 @@ final class SocialMediaEverywherePublic
     public function setup()
     {
         if ($this->isSMEEnabled()) {
-            add_action('wp_footer', array($this, 'addPopup'));
+            if ($this->isPopupEnabled()) {
+                add_action('wp_footer', array($this, 'addPopup'));
+            }
+            add_action('wp_enqueue_scripts', array($this, 'addStyle'));
+            add_action('wp_enqueue_scripts', array($this, 'addScript'));
         }
-        add_action('wp_enqueue_scripts', array($this, 'addStyle'));
-        add_action('wp_enqueue_scripts', array($this, 'addScript'));
     }
 
     public function addStyle()
@@ -25,20 +27,26 @@ final class SocialMediaEverywherePublic
 
     public function addPopup()
     {
-	?>
+        ?>
 
 <div id="social-media-everywhere-modal">
-	<div id="social-media-everywhere-popup">
-		<?php if (!empty(get_option(SME_TWITTER_ACCOUNT))): ?>
-		<a href="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>">Follow me</a>
-		<?php endif; ?>
-	</div>
+    <div id="social-media-everywhere-popup">
+        <?php if (!empty(get_option(SME_TWITTER_ACCOUNT))): ?>
+        <a href="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>">Follow me</a>
+        <?php endif; ?>
+    </div>
 </div>
 
 <?php
     }
 
-    public function isSMEEnabled() {
-        return get_option(SME_ENABLED) == 1;
+    public function isSMEEnabled()
+    {
+        return intval(get_option(SME_ENABLED)) === 1;
+    }
+
+    public function isPopupEnabled()
+    {
+        return intval(get_option(SME_POPUP_SHOW_SETTING)) !== 0;
     }
 }
