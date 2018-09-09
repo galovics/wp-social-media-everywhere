@@ -43,14 +43,16 @@ jQuery(document).ready(function ($) {
 
     function showPopupIfNecessary() {
         if (!isPopupAlreadyShown()) {
-            let hT = $('footer.entry-footer').offset().top,
-                hH = $('footer.entry-footer').outerHeight(),
-                wH = $(window).height(),
-                wS = $(this).scrollTop();
-            if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
-                setPopupAlreadyShown(true);
-                $('#social-media-everywhere-modal').show();
-                lockScrolling();
+            if ($('#social-media-everywhere-modal').length) {
+                let hT = $('footer.entry-footer').offset().top,
+                    hH = $('footer.entry-footer').outerHeight(),
+                    wH = $(window).height(),
+                    wS = $(this).scrollTop();
+                if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+                    setPopupAlreadyShown(true);
+                    $('#social-media-everywhere-modal').show();
+                    lockScrolling();
+                }
             }
         }
     }

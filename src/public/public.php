@@ -4,7 +4,9 @@ final class SocialMediaEverywherePublic
 {
     public function setup()
     {
-        add_action('wp_footer', array($this, 'addPopup'));
+        if ($this->isSMEEnabled()) {
+            add_action('wp_footer', array($this, 'addPopup'));
+        }
         add_action('wp_enqueue_scripts', array($this, 'addStyle'));
         add_action('wp_enqueue_scripts', array($this, 'addScript'));
     }
@@ -34,5 +36,9 @@ final class SocialMediaEverywherePublic
 </div>
 
 <?php
+    }
+
+    public function isSMEEnabled() {
+        return get_option(SME_ENABLED) == 1;
     }
 }
