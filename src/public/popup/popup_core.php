@@ -1,6 +1,7 @@
 <?php
 
 include_once SME_PATH . 'public/popup/twitter_popup.php';
+include_once SME_PATH . 'public/popup/linkedin_popup.php';
 
 final class SocialMediaEverywherePublicPopup
 {
@@ -9,6 +10,7 @@ final class SocialMediaEverywherePublicPopup
     public function __construct()
     {
         array_push($this->popups, new SocialMediaEverywhereTwitterPopup());
+        array_push($this->popups, new SocialMediaEverywhereLinkedInPopup());
     }
 
     public function setup()

@@ -5,12 +5,14 @@ abstract class SocialMediaEverywherePopup
     {
         ?>
 <?php if (!empty(get_option($this->getPopupOptionName()))): ?>
-<img src="<?php echo SME_URL . 'public/images/' . $this->getIconName(); ?>" />
+<div class="icon social <?php echo $this->getClassName(); ?>">
+    <i class="fab fa-<?php echo $this->getClassName(); ?>"></i>
+</div>
 <?php endif; ?>
 <?php
     }
 
     abstract protected function getPopupOptionName();
 
-    abstract protected function getIconName();
+    abstract protected function getClassName();
 }
