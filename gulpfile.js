@@ -14,7 +14,7 @@ gulp.task('clean', function () {
 gulp.task('css-admin', function () {
     return gulp.src('src/admin/css/socialmediaeverywhere.scss')
         .pipe(wait(200))
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('dist/admin/css/'));
 });
 
@@ -30,7 +30,7 @@ gulp.task('js-admin', function () {
 gulp.task('css-public', function () {
     return gulp.src('src/public/css/socialmediaeverywhere.scss')
         .pipe(wait(200))
-        .pipe(sass())
+        .pipe(sass().on('error', sass.logError))
         .pipe(gulp.dest('dist/public/css/'));
 });
 
