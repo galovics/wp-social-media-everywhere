@@ -1,6 +1,6 @@
 <?php
 
-include_once('settings.php');
+include_once SME_PATH . 'admin/settings.php';
 
 final class SocialMediaEverywherePopupSettings implements Settings
 {

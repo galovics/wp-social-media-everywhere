@@ -38,7 +38,8 @@ jQuery(document).ready(function ($) {
     }
 
     function isStorageAvailable() {
-        return typeof (Storage) !== "undefined";
+        //return typeof (Storage) !== "undefined";
+        return false;
     }
 
     function showPopupIfNecessary() {
