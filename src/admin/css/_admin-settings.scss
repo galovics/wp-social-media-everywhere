@@ -1,0 +1,22 @@
+#sme-settings {
+    header {
+        & > h3 {
+            display: inline-block;
+            cursor: pointer;
+    
+            &.active {
+                text-decoration: underline;
+            }
+        }    
+    }
+    
+    main {
+        & > div {
+            display: none;
+    
+            &.active {
+                display: block;
+            }
+        }
+    }
+}

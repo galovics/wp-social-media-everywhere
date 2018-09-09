@@ -14,6 +14,13 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
         return "General settings";
     }
 
+    public function handleEnabledChange($value) {
+        if (is_null($value)) {
+            return 0;
+        }
+        return $value;
+    }
+
     public function render()
     {
     ?>
@@ -30,7 +37,7 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
     {
         add_option(SME_ENABLED, 1);
         register_setting(SME_OPTIONS_GROUP, SME_ENABLED, array(
-            'sanitize_callback' => 'handleEnabledChange'
+            'sanitize_callback' => array($this, 'handleEnabledChange')
         ));
     }
 }
