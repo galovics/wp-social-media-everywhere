@@ -38,6 +38,7 @@
                 margin-top: 10px;
 
                 .icon {
+                    display: inline-block;
                     position:relative;
                     text-align:center;
                     width:0px;
@@ -61,7 +62,6 @@
 
                     &.social {
                         margin:0 5px 0 0;
-                        cursor:pointer;
                         color:#262626;
                         transition: 0.5s;
                         -moz-transition: 0.5s;

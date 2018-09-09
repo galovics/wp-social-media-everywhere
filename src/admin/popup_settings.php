@@ -25,6 +25,8 @@ final class SocialMediaEverywherePopupSettings implements Settings
     <div class="account-settings">
         <label for="<?php echo SME_TWITTER_ACCOUNT; ?>">Twitter account</label>
         <input type="text" id="<?php echo SME_TWITTER_ACCOUNT; ?>" name="<?php echo SME_TWITTER_ACCOUNT; ?>" value="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>" />
+        <label for="<?php echo SME_LINKEDIN_ACCOUNT; ?>">Twitter account</label>
+        <input type="text" id="<?php echo SME_LINKEDIN_ACCOUNT; ?>" name="<?php echo SME_LINKEDIN_ACCOUNT; ?>" value="<?php echo get_option(SME_LINKEDIN_ACCOUNT); ?>" />
     </div>
 </div>
 
@@ -38,12 +40,16 @@ final class SocialMediaEverywherePopupSettings implements Settings
         register_setting(SME_OPTIONS_GROUP, SME_TWITTER_ACCOUNT, array(
             'sanitize_callback' => array($this, 'handleTwitterAccountChange')
         ));
+        add_option(SME_LINKEDIN_ACCOUNT, 'https://');
+        register_setting(SME_OPTIONS_GROUP, SME_LINKEDIN_ACCOUNT, array(
+            'sanitize_callback' => array($this, 'handleLinkedInAccountChange')
+        ));
         
         add_option(SME_POPUP_SHOW_SETTING, '0');
         register_setting(SME_OPTIONS_GROUP, SME_POPUP_SHOW_SETTING);
     }
 
-    public function handleTwitterAccountChange($value) {
+    private function sanitizeURL($value) {
         if (empty($value)) {
             return 'https://';
         }
@@ -51,5 +57,13 @@ final class SocialMediaEverywherePopupSettings implements Settings
             return 'https://' . $value;
         }
         return $value;
+    }
+
+    public function handleTwitterAccountChange($value) {
+        return $this->sanitizeURL($value);
+    }
+
+    public function handleLinkedInAccountChange($value) {
+        return $this->sanitizeURL($value);
     }
 }

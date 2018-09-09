@@ -5,9 +5,9 @@ abstract class SocialMediaEverywherePopup
     {
         ?>
 <?php if (!empty(get_option($this->getPopupOptionName()))): ?>
-<div class="icon social <?php echo $this->getClassName(); ?>">
+<a href="<?php echo get_option($this->getPopupOptionName()); ?>" class="icon social <?php echo $this->getClassName(); ?>" target="_blank">
     <i class="fab fa-<?php echo $this->getClassName(); ?>"></i>
-</div>
+</a>
 <?php endif; ?>
 <?php
     }
