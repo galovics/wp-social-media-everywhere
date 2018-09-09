@@ -67,35 +67,35 @@
                         -moz-transition: 0.5s;
                         -webkit-transition: 0.5s;
                         -o-transition: 0.5s; 
+                        background-color:#666;
 
                         &.twitter {
-                            background-color:#1DA1F2;
                             i {
                                 left:11px;
                                 color: #FFF;
+                            }
+
+                            &:hover {
+                                background-color: #1DA1F2;
                             }
                         }
 
                         &.linkedin-in {
-                            background-color: #005E93;
                             i {
                                 left:11px;
                                 color: #FFF;
                             }
+
+                            &:hover {
+                                background-color: #005E93;
+                            }
                         }
 
                         &:hover {
-                            background:#262626 ;
-                            color:#6d6e71;
                             transition: 0.5s;
                             -moz-transition: 0.5s;
                             -webkit-transition: 0.5s;
-                            -o-transition: 0.5s;
-                            -webkit-filter:	drop-shadow(0 1px 10px rgba(0,0,0,.8));
-                            -moz-filter: 	drop-shadow(0 1px 10px rgba(0,0,0,.8));
-                            -ms-filter: 		drop-shadow(0 1px 10px rgba(0,0,0,.8));
-                            -o-filter: 		drop-shadow(0 1px 10px rgba(0,0,0,.8));
-                            filter: 			drop-shadow(0 1px 10px rgba(0,0,0,.8));	 	
+                            -o-transition: 0.5s;	
                         }
                     }
                 }
