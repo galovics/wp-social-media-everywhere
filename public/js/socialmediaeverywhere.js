@@ -1,7 +1,7 @@
-jQuery(document).ready(function($) {
+jQuery(document).ready(function ($) {
 
 	// Popup
-	let popup = function($) {
+	let popup = function ($) {
 		const dataKey = 'social-media-everywhere-popup-shown';
 
 		if (isStorageAvailable()) {
@@ -12,7 +12,7 @@ jQuery(document).ready(function($) {
 		} else {
 			setPopupAlreadyShown(false);
 		}
-		
+
 		function lockScrolling() {
 			let html = $('html');
 			html.data('previous-overflow', html.css('overflow'));
@@ -28,7 +28,7 @@ jQuery(document).ready(function($) {
 			if (isStorageAvailable()) {
 				localStorage.setItem(dataKey, booleanValue);
 			} else {
-				$('html').data(dataKey, booleanValue);	
+				$('html').data(dataKey, booleanValue);
 			}
 		}
 
@@ -41,34 +41,34 @@ jQuery(document).ready(function($) {
 		}
 
 		function isStorageAvailable() {
-			return typeof(Storage) !== "undefined";
+			return typeof (Storage) !== "undefined";
 		}
 
 		function showPopupIfNecessary() {
 			if (!isPopupAlreadyShown()) {
 				let hT = $('footer.entry-footer').offset().top,
-			       hH = $('footer.entry-footer').outerHeight(),
-			       wH = $(window).height(),
-			       wS = $(this).scrollTop();
-			   	if (wS > (hT+hH-wH) && (hT > wS) && (wS+wH > hT+hH)){
-			   		setPopupAlreadyShown(true);
+					hH = $('footer.entry-footer').outerHeight(),
+					wH = $(window).height(),
+					wS = $(this).scrollTop();
+				if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+					setPopupAlreadyShown(true);
 					$('#social-media-everywhere-modal').show();
 					lockScrolling();
-			   	}
-		    }
+				}
+			}
 		}
 
 
-		$(window).on('click', function(e) {
+		$(window).on('click', function (e) {
 			let element = $('#social-media-everywhere-modal')
 			if (e.target == element[0]) {
 				element.hide();
 				unlockScrolling();
 			}
 		});
-		
+
 		showPopupIfNecessary();
-		$(window).scroll(function() {
+		$(window).scroll(function () {
 			showPopupIfNecessary();
 		});
 

@@ -9,7 +9,7 @@
   License: GPL2
 */
 
-define('SME_PATH', plugin_dir_path( __FILE__ ) );
+define('SME_PATH', plugin_dir_path(__FILE__));
 define('SME_URL', plugin_dir_url(__FILE__));
 define('SME_OPTIONS_GROUP', 'socialmediaeverywhere_options_group');
 
@@ -24,5 +24,3 @@ $smeAdmin->setup();
 
 $smePublic = new SocialMediaEverywherePublic();
 $smePublic->setup();
-
-?>
