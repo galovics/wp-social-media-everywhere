@@ -11,14 +11,10 @@ final class SocialMediaEverywherePopupSettings {
 
     public function render() {
 	?>
-		<form method="post" action="options.php">
-			<?php settings_fields(SME_OPTIONS_GROUP); ?>
-			<div>
-				<label for="<?php echo SME_TWITTER_ACCOUNT; ?>">Twitter account</label>
-				<input type="text" id="<?php echo SME_TWITTER_ACCOUNT; ?>" name="<?php echo SME_TWITTER_ACCOUNT; ?>" value="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>" />
-			</div>
-			<?php submit_button(); ?>
-		</form>
+		<div>
+			<label for="<?php echo SME_TWITTER_ACCOUNT; ?>">Twitter account</label>
+			<input type="text" id="<?php echo SME_TWITTER_ACCOUNT; ?>" name="<?php echo SME_TWITTER_ACCOUNT; ?>" value="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>" />
+		</div>
 	<?php
     }
 

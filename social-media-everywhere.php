@@ -13,6 +13,7 @@ define('SME_PATH', plugin_dir_path( __FILE__ ) );
 define('SME_URL', plugin_dir_url(__FILE__));
 define('SME_OPTIONS_GROUP', 'socialmediaeverywhere_options_group');
 
+define('SME_ENABLED', 'socialmediaeverywhere_enabled');
 define('SME_TWITTER_ACCOUNT', 'socialmediaeverywhere_twitter_account');
 
 include_once(SME_PATH . 'admin/admin.php');
