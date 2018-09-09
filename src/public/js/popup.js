@@ -47,7 +47,7 @@ jQuery(document).ready(function ($) {
                 let hT = $('footer.entry-footer').offset().top,
                     hH = $('footer.entry-footer').outerHeight(),
                     wH = $(window).height(),
-                    wS = $(this).scrollTop();
+                    wS = $(window).scrollTop();
                 if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
                     setPopupAlreadyShown(true);
                     $('#social-media-everywhere-modal').show();
