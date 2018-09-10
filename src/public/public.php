@@ -10,6 +10,9 @@ final class SocialMediaEverywherePublic
             if ($this->isPopupEnabled()) {
                 $popup = new SocialMediaEverywherePublicPopup();
                 add_action('wp_footer', array($popup, 'setup'));
+                if ($this->isPopupAtBottomEnabled()) {
+                    add_filter('the_content', array($this, 'addBottomElementForPopup'));
+                }
             }
             add_action('wp_enqueue_scripts', array($this, 'addStyle'));
             add_action('wp_enqueue_scripts', array($this, 'addScript'));
@@ -28,6 +31,20 @@ final class SocialMediaEverywherePublic
     {
         wp_register_script('socialmediaeverywhere', SME_URL . 'public/js/socialmediaeverywhere.js', array('jquery'), '1.0', true);
         wp_enqueue_script('socialmediaeverywhere');
+        wp_localize_script('socialmediaeverywhere', 'SME', array(
+            'global' => array(
+                'smeEnabled' => $this->isSMEEnabled(),
+                'isPost' => $this->isBlogPost()
+            ),
+            'popup' => array(
+                'enabled' => $this->isPopupEnabled(),
+                'bottomPopupEnabled' => $this->isPopupAtBottomEnabled()
+            )
+        ));
+    }
+
+    public function addBottomElementForPopup($content) {
+        return $content . '<span id="sme-post-bottom" style="display:inline-block;width:1px;height:1px;"></span>';
     }
 
     public function isSMEEnabled()
@@ -38,5 +55,14 @@ final class SocialMediaEverywherePublic
     public function isPopupEnabled()
     {
         return intval(get_option(SME_POPUP_SHOW_SETTING)) !== 0;
+    }
+
+    public function isPopupAtBottomEnabled()
+    {
+        return intval(get_option(SME_POPUP_SHOW_SETTING)) === 1;
+    }
+
+    public function isBlogPost() {
+        return !is_front_page() && !is_home();
     }
 }
