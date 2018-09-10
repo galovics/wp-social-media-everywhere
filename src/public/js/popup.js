@@ -1,6 +1,6 @@
 jQuery(document).ready(function ($) {
     console.log(SME);
-    if (!isBlogPost()) {
+    if (!isBlogPost() || !isPopupEnabled()) {
         return;
     }
 
@@ -65,6 +65,10 @@ jQuery(document).ready(function ($) {
                 }
             }
         }
+    }
+
+    function isPopupEnabled() {
+        return SME.popup.enabled;
     }
 
     function isBottomPopupEnabled() {
