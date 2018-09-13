@@ -1,11 +1,17 @@
 <?php
 
 include_once SME_PATH . 'admin/settings.php';
+include_once SME_PATH . 'admin/account/linkedin_account.php';
+include_once SME_PATH . 'admin/account/twitter_account.php';
 
 final class SocialMediaEverywhereGeneralSettings implements Settings
 {
+    private $accounts = array();
+
     public function __construct()
     {
+        array_push($this->accounts, new SocialMediaEverywhereLinkedInAccount());
+        array_push($this->accounts, new SocialMediaEverywhereTwitterAccount());
         add_action('admin_init', array($this, 'registerSettings'));
     }
 
@@ -32,14 +38,9 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
         </div>
     </div>
     <div id="sme-account-settings" class="settings-section">
-        <div class="account-twitter setting-row">
-            <label for="<?php echo SME_TWITTER_ACCOUNT; ?>">Twitter account</label>
-            <input type="text" id="<?php echo SME_TWITTER_ACCOUNT; ?>" name="<?php echo SME_TWITTER_ACCOUNT; ?>" value="<?php echo get_option(SME_TWITTER_ACCOUNT); ?>" />
-        </div>
-        <div class="account-linkedin setting-row">
-            <label for="<?php echo SME_LINKEDIN_ACCOUNT; ?>">LinkedIn account</label>
-            <input type="text" id="<?php echo SME_LINKEDIN_ACCOUNT; ?>" name="<?php echo SME_LINKEDIN_ACCOUNT; ?>" value="<?php echo get_option(SME_LINKEDIN_ACCOUNT); ?>" />
-        </div>
+        <?php foreach ($this->accounts as $account): ?>
+        <?php echo $account->render(); ?>
+        <?php endforeach; ?>
     </div>
 </div>
 
