@@ -15,6 +15,7 @@ define('SME_OPTIONS_GROUP', 'socialmediaeverywhere_options_group');
 
 define('SME_ENABLED', 'socialmediaeverywhere_enabled');
 define('SME_POPUP_SHOW_SETTING', 'socialmediaeverywhere_popup_show_setting');
+define('SME_POPUP_TIMED_SEC', 'socialmediaeverywhere_popup_timed_sec');
 define('SME_TWITTER_ACCOUNT', 'socialmediaeverywhere_twitter_account');
 define('SME_LINKEDIN_ACCOUNT', 'socialmediaeverywhere_linkedin_account');
 

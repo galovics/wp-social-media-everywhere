@@ -38,7 +38,9 @@ final class SocialMediaEverywherePublic
             ),
             'popup' => array(
                 'enabled' => $this->isPopupEnabled(),
-                'bottomPopupEnabled' => $this->isPopupAtBottomEnabled()
+                'bottomPopupEnabled' => $this->isPopupAtBottomEnabled(),
+                'timedPopupEnabled' => $this->isTimedPopupEnabled(),
+                'timedPopupSeconds' => $this->getTimedPopupSeconds()
             )
         ));
     }
@@ -64,5 +66,13 @@ final class SocialMediaEverywherePublic
 
     public function isBlogPost() {
         return !is_front_page() && !is_home();
+    }
+
+    public function isTimedPopupEnabled() {
+        return intval(get_option(SME_POPUP_SHOW_SETTING)) === 2;
+    }
+
+    public function getTimedPopupSeconds() {
+        return intval(get_option(SME_POPUP_TIMED_SEC));
     }
 }

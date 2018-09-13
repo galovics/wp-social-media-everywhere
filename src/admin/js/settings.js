@@ -1,5 +1,22 @@
 jQuery(document).ready(function ($) {
+    handlePopupSettingChange();    
+
     $('#sme-settings header > h3').on('click', handleSettingsChange);
+    $('#sme-popup-settings #sme-popup-show-settings input').on('change', handlePopupSettingChange);
+
+    function handlePopupSettingChange() {
+        const timedPopupSetting = $('#sme-popup-timed-settings');
+        if (isTimedPopupEnabled()) {
+            timedPopupSetting.show();
+        } else {
+            timedPopupSetting.hide();
+        }
+    }
+
+    function isTimedPopupEnabled() {
+        const popupSettingValue = parseInt($('#sme-popup-settings #sme-popup-show-settings input:checked').val());
+        return popupSettingValue === 2;
+    }
 
     function handleSettingsChange(e) {
         $(this).siblings().removeClass('active');
