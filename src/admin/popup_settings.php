@@ -47,6 +47,15 @@ final class SocialMediaEverywherePopupSettings implements Settings
         register_setting(SME_OPTIONS_GROUP, SME_POPUP_SHOW_SETTING);
         
         add_option(SME_POPUP_TIMED_SEC, '0');
-        register_setting(SME_OPTIONS_GROUP, SME_POPUP_TIMED_SEC);
+        register_setting(SME_OPTIONS_GROUP, SME_POPUP_TIMED_SEC, array(
+            'sanitize_callback' => array($this, 'handleTimedPopupSecondsChange')
+        ));
+    }
+
+    public function handleTimedPopupSecondsChange($seconds) {
+        if (empty($seconds) || intval($seconds) < 1) {
+            return 1;
+        }
+        return $seconds;
     }
 }
