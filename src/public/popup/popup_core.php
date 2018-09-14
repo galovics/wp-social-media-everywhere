@@ -25,7 +25,7 @@ final class SocialMediaEverywherePublicPopup
     {
         ?>
 
-<div id="social-media-everywhere-modal">
+<div id="social-media-everywhere-modal" class="social-media-everywhere-modal">
     <div id="social-media-everywhere-popup">
         <div id="social-media-everywhere-popup-content">
             <h2>Follow me</h2>

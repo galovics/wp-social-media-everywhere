@@ -1,4 +1,4 @@
-#social-media-everywhere-modal {
+.social-media-everywhere-modal {
 	display: none;
     position: fixed;
     z-index: 2;
@@ -11,7 +11,7 @@
     background-color: rgba(0,0,0,0.4);
     cursor: pointer;
 
-    #social-media-everywhere-popup {
+    & > div {
         margin: 15% auto;
         width: 700px;
         height: 220px;
@@ -19,7 +19,7 @@
         background-color: #7fc242;
         text-align: center;
 
-        #social-media-everywhere-popup-content {
+        & > div{
             padding-top: 50px;
             background-color: #FCFCFC;
             margin: 0 auto;
