@@ -21,7 +21,9 @@ gulp.task('css-admin', function () {
 
 gulp.task('js-admin', function () {
     return gulp.src('src/admin/js/*.js')
-        .pipe(jshint())
+        .pipe(jshint({
+            esnext: true
+        }))
         .pipe(babel({
             "presets": ["@babel/preset-env"]
         }))
@@ -39,7 +41,9 @@ gulp.task('css-public', function () {
 
 gulp.task('js-public', function () {
     return gulp.src('src/public/js/*.js')
-        .pipe(jshint())
+        .pipe(jshint({
+            esnext: true
+        }))
         .pipe(babel({
             "presets": ["@babel/preset-env"]
         }))
@@ -53,7 +57,7 @@ gulp.task('copy', function () {
         .pipe(gulp.dest('dist/'));
 });
 
-gulp.task('watch', ['install'], function () {
+gulp.task('watch', ['build'], function () {
     gulp.watch('src/**/*.php', ['copy']);
     gulp.watch('src/public/**/*.scss', ['css-public']);
     gulp.watch('src/public/**/*.js', ['js-public']);
@@ -64,12 +68,4 @@ gulp.task('watch', ['install'], function () {
 
 gulp.task('css', ['css-public', 'css-admin']);
 gulp.task('js', ['js-public', 'js-admin']);
-gulp.task('install', sequence('clean', ['copy', 'css', 'js']));
-
-function safeRun(f) {
-    try {
-        return f();
-    } catch(e) {
-        console.log(e);
-    }
-}
+gulp.task('build', sequence('clean', ['copy', 'css', 'js']));

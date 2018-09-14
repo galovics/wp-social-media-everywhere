@@ -133,7 +133,7 @@ class SocialMediaEverywhereTimedPopup {
 
     initialize() {
         const refThis = this;
-        setTimeout(() => refThis.showPopupIfNecessary(), this.config.getTimedPopupMillisecs())
+        setTimeout(() => refThis.showPopupIfNecessary(), this.config.getTimedPopupMillisecs());
     }
 
     showPopupIfNecessary() {
@@ -161,7 +161,7 @@ jQuery(document).ready(function ($) {
     }
 
     $(window).on('click', (e) => {
-        let element = $('#social-media-everywhere-modal')
+        let element = $('#social-media-everywhere-modal');
         if (e.target == element[0]) {
             SocialMediaEverywherePopupUtil.hidePopup();
         }
