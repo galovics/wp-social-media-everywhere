@@ -35,6 +35,12 @@ final class SocialMediaEverywherePopupSettings implements Settings
             <input type="text" id="<?php echo SME_POPUP_TIMED_SEC; ?>" name="<?php echo SME_POPUP_TIMED_SEC; ?>" value="<?php echo get_option(SME_POPUP_TIMED_SEC); ?>" />
         </div>
     </div>
+    <div id="sme-popup-title-settings" class="settings-section">
+        <div class="popup-title-setting setting-row">
+            <label for="<?php echo SME_POPUP_TITLE; ?>">Title for popup: </label>
+            <input type="text" id="<?php echo SME_POPUP_TITLE; ?>" name="<?php echo SME_POPUP_TITLE; ?>" value="<?php echo get_option(SME_POPUP_TITLE); ?>" />
+        </div>
+    </div>
 </div>
 
 
@@ -50,6 +56,9 @@ final class SocialMediaEverywherePopupSettings implements Settings
         register_setting(SME_OPTIONS_GROUP, SME_POPUP_TIMED_SEC, array(
             'sanitize_callback' => array($this, 'handleTimedPopupSecondsChange')
         ));
+
+        add_option(SME_POPUP_TITLE, 'Follow me');
+        register_setting(SME_OPTIONS_GROUP, SME_POPUP_TITLE);
     }
 
     public function handleTimedPopupSecondsChange($seconds) {

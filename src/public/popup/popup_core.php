@@ -28,7 +28,7 @@ final class SocialMediaEverywherePublicPopup
 <div id="social-media-everywhere-modal" class="social-media-everywhere-modal">
     <div id="social-media-everywhere-popup">
         <div id="social-media-everywhere-popup-content">
-            <h2>Follow me</h2>
+            <h2><?php echo get_option(SME_POPUP_TITLE); ?></h2>
             <div class="icons">
                 <?php foreach ($this->popups as $popup): ?>
                 <?php echo $popup->render(); ?>
