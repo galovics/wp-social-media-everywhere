@@ -1,92 +1,138 @@
-jQuery(document).ready(function ($) {
-    if (!isBlogPost() || !isPopupEnabled()) {
-        return;
+class SocialMediaEverywherePopupUtil {
+    static isString(s) {
+        return Object.prototype.toString.call(s) === '[object String]';
     }
 
-    const dataKey = 'social-media-everywhere-popup-shown';
-
-    if (isStorageAvailable()) {
-        const popupValue = localStorage.getItem(dataKey);
-        if (popupValue == null) {
-            setPopupAlreadyShown(false);
+    static parseBoolean(s) {
+        if (SocialMediaEverywherePopupUtil.isString(s)) {
+            return s === 'true';
         }
-    } else {
-        setPopupAlreadyShown(false);
+        return s;
     }
 
-    function isBlogPost() {
-        return SME.global.isPost;
-    }
-
-    function lockScrolling() {
-        let html = $('html');
+    static lockScrolling() {
+        let html = jQuery('html');
         html.data('previous-overflow', html.css('overflow'));
         html.css('overflow', 'hidden');
     }
 
-    function unlockScrolling() {
-        let html = $('html');
+    static unlockScrolling() {
+        let html = jQuery('html');
         html.css('overflow', html.data('previous-overflow'));
     }
+}
 
-    function setPopupAlreadyShown(booleanValue) {
-        if (isStorageAvailable()) {
-            localStorage.setItem(dataKey, booleanValue);
+class SocialMediaEverywherePopupCongfiguration {
+    isBlogPost() {
+        return SME.global.isPost;
+    }
+
+    isPopupEnabled() {
+        return SME.popup.enabled;
+    }
+
+    isBottomPopupEnabled() {
+        return SME.popup.bottomPopupEnabled;
+    }
+}
+
+class SocialMediaEverywherePopupStorage {
+    constructor() {
+        //this.isStorageAvailable = typeof (Storage) !== "undefined";
+        this.isStorageAvailable = false;
+    }
+
+    get(key) {
+        if (this.isStorageAvailable) {
+            return localStorage.getItem(key);
         } else {
-            $('html').data(dataKey, booleanValue);
+            return jQuery('html').data(key);
         }
     }
 
-    function isPopupAlreadyShown() {
-        if (isStorageAvailable()) {
-            return parseBoolean(localStorage.getItem(dataKey));
+    exists(key) {
+        return this.get(key) !== null;
+    }
+
+    getBoolean(key) {
+        return SocialMediaEverywherePopupUtil.parseBoolean(this.get(key));
+    }
+
+    set(key, value) {
+        if (this.isStorageAvailable) {
+            localStorage.setItem(key, value);
         } else {
-            return $('html').data(dataKey);
+            jQuery('html').data(key, value);
         }
     }
+}
 
-    function isStorageAvailable() {
-        //return typeof (Storage) !== "undefined";
-        return false;
+class SocialMediaEverywherePopupSettings {
+    static POPUP_ALREADY_SHOWN = 'social-media-everywhere-popup-shown';
+
+    constructor(storage) {
+        this.storage = storage;
     }
 
-    function showPopupIfNecessary() {
-        if (!isPopupAlreadyShown()) {
-            if (isBottomPopupEnabled()) {
-                let hT = $('#sme-post-bottom').offset().top,
-                    hH = $('#sme-post-bottom').outerHeight(),
-                    wH = $(window).height(),
-                    wS = $(window).scrollTop();
+    setPopupAlreadyShown(booleanValue) {
+        storage.set(SocialMediaEverywherePopupSettings.POPUP_ALREADY_SHOWN, booleanValue);
+    }
+
+    isPopupAlreadyShown() {
+        return storage.getBoolean(SocialMediaEverywherePopupSettings.POPUP_ALREADY_SHOWN);
+    }
+}
+
+class SocialMediaEverywhereBottomPopup {
+    constructor(settings) {
+        this.settings = settings;
+    }
+
+    initialize() {
+        this.showPopupIfNecessary();
+        jQuery(window).scroll(() => this.showPopupIfNecessary());
+    }
+
+    showPopupIfNecessary() {
+        if (!settings.isPopupAlreadyShown()) {
+            if (config.isBottomPopupEnabled()) {
+                let hT = jQuery('#sme-post-bottom').offset().top,
+                    hH = jQuery('#sme-post-bottom').outerHeight(),
+                    wH = jQuery(window).height(),
+                    wS = jQuery(window).scrollTop();
                 if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
-                    setPopupAlreadyShown(true);
-                    $('#social-media-everywhere-modal').show();
-                    lockScrolling();
+                    settings.setPopupAlreadyShown(true);
+                    jQuery('#social-media-everywhere-modal').show();
+                    SocialMediaEverywherePopupUtil.lockScrolling();
                 }
             }
         }
     }
+}
 
-    function isPopupEnabled() {
-        return SME.popup.enabled;
+jQuery(document).ready(function ($) {
+    const config = new SocialMediaEverywherePopupCongfiguration();
+    const storage = new SocialMediaEverywherePopupStorage();
+    const settings = new SocialMediaEverywherePopupSettings(storage);
+    const bottomPopup = new SocialMediaEverywhereBottomPopup(settings);
+
+    if (!config.isBlogPost() || !config.isPopupEnabled()) {
+        return;
     }
 
-    function isBottomPopupEnabled() {
-        return SME.popup.bottomPopupEnabled;
+    if (!storage.exists(dataKey)) {    
+        settings.setPopupAlreadyShown(false);
     }
-
 
     $(window).on('click', function (e) {
         let element = $('#social-media-everywhere-modal')
         if (e.target == element[0]) {
             element.hide();
-            unlockScrolling();
+            SocialMediaEverywherePopupUtil.unlockScrolling();
         }
     });
 
-    showPopupIfNecessary();
-    $(window).scroll(() => showPopupIfNecessary());
-
-    function parseBoolean(s) {
-        return s === 'true';
-    };
+    if (config.isBottomPopupEnabled()) {
+        bottomPopup.initialize();
+    }
 });
