@@ -2,6 +2,10 @@
 
 include_once SME_PATH . 'public/popup/twitter_popup.php';
 include_once SME_PATH . 'public/popup/linkedin_popup.php';
+include_once SME_PATH . 'public/popup/facebook_popup.php';
+include_once SME_PATH . 'public/popup/google_plus_popup.php';
+include_once SME_PATH . 'public/popup/instagram_popup.php';
+include_once SME_PATH . 'public/popup/youtube_popup.php';
 
 final class SocialMediaEverywherePublicPopup
 {
@@ -9,8 +13,12 @@ final class SocialMediaEverywherePublicPopup
 
     public function __construct()
     {
+        array_push($this->popups, new SocialMediaEverywhereFacebookPopup());
         array_push($this->popups, new SocialMediaEverywhereTwitterPopup());
         array_push($this->popups, new SocialMediaEverywhereLinkedInPopup());
+        array_push($this->popups, new SocialMediaEverywhereGooglePlusPopup());
+        array_push($this->popups, new SocialMediaEverywhereInstagramPopup());
+        array_push($this->popups, new SocialMediaEverywhereYoutubePopup());
     }
 
     public function setup()

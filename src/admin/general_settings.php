@@ -3,6 +3,10 @@
 include_once SME_PATH . 'admin/settings.php';
 include_once SME_PATH . 'admin/account/linkedin_account.php';
 include_once SME_PATH . 'admin/account/twitter_account.php';
+include_once SME_PATH . 'admin/account/instagram_account.php';
+include_once SME_PATH . 'admin/account/google_plus_account.php';
+include_once SME_PATH . 'admin/account/facebook_account.php';
+include_once SME_PATH . 'admin/account/youtube_account.php';
 
 final class SocialMediaEverywhereGeneralSettings implements Settings
 {
@@ -10,8 +14,12 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
 
     public function __construct()
     {
-        array_push($this->accounts, new SocialMediaEverywhereLinkedInAccount());
+        array_push($this->accounts, new SocialMediaEverywhereFacebookAccount());
         array_push($this->accounts, new SocialMediaEverywhereTwitterAccount());
+        array_push($this->accounts, new SocialMediaEverywhereLinkedInAccount());
+        array_push($this->accounts, new SocialMediaEverywhereGooglePlusAccount());
+        array_push($this->accounts, new SocialMediaEverywhereInstagramAccount());
+        array_push($this->accounts, new SocialMediaEverywhereYoutubeAccount());
         add_action('admin_init', array($this, 'registerSettings'));
     }
 
@@ -56,15 +64,31 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
         
         add_option(SME_TWITTER_ACCOUNT, 'https://');
         register_setting(SME_OPTIONS_GROUP, SME_TWITTER_ACCOUNT, array(
-            'sanitize_callback' => array($this, 'handleTwitterAccountChange')
+            'sanitize_callback' => array($this, 'sanitizeURL')
         ));
         add_option(SME_LINKEDIN_ACCOUNT, 'https://');
         register_setting(SME_OPTIONS_GROUP, SME_LINKEDIN_ACCOUNT, array(
-            'sanitize_callback' => array($this, 'handleLinkedInAccountChange')
+            'sanitize_callback' => array($this, 'sanitizeURL')
+        ));
+        add_option(SME_FACEBOOK_ACCOUNT, 'https://');
+        register_setting(SME_OPTIONS_GROUP, SME_FACEBOOK_ACCOUNT, array(
+            'sanitize_callback' => array($this, 'sanitizeURL')
+        ));
+        add_option(SME_GOOGLE_PLUS_ACCOUNT, 'https://');
+        register_setting(SME_OPTIONS_GROUP, SME_GOOGLE_PLUS_ACCOUNT, array(
+            'sanitize_callback' => array($this, 'sanitizeURL')
+        ));
+        add_option(SME_INSTAGRAM_ACCOUNT, 'https://');
+        register_setting(SME_OPTIONS_GROUP, SME_INSTAGRAM_ACCOUNT, array(
+            'sanitize_callback' => array($this, 'sanitizeURL')
+        ));
+        add_option(SME_YOUTUBE_ACCOUNT, 'https://');
+        register_setting(SME_OPTIONS_GROUP, SME_YOUTUBE_ACCOUNT, array(
+            'sanitize_callback' => array($this, 'sanitizeURL')
         ));
     }
 
-    private function sanitizeURL($value) {
+    public function sanitizeURL($value) {
         if (empty($value)) {
             return $value;
         }
@@ -72,13 +96,5 @@ final class SocialMediaEverywhereGeneralSettings implements Settings
             return 'https://' . $value;
         }
         return $value;
-    }
-
-    public function handleTwitterAccountChange($value) {
-        return $this->sanitizeURL($value);
-    }
-
-    public function handleLinkedInAccountChange($value) {
-        return $this->sanitizeURL($value);
     }
 }

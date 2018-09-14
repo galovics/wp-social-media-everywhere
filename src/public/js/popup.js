@@ -112,13 +112,13 @@ class SocialMediaEverywhereBottomPopup {
     } 
 
     showPopupIfNecessary() {
-        if (!settings.isPopupAlreadyShown()) {
+        if (!this.settings.isPopupAlreadyShown()) {
             let hT = jQuery('#sme-post-bottom').offset().top,
                 hH = jQuery('#sme-post-bottom').outerHeight(),
                 wH = jQuery(window).height(),
                 wS = jQuery(window).scrollTop();
             if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
-                settings.setPopupAlreadyShown(true);
+                this.settings.setPopupAlreadyShown(true);
                 SocialMediaEverywherePopupUtil.showPopup();
             }
         }
