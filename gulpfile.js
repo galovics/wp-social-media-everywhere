@@ -5,6 +5,7 @@ var babel = require('gulp-babel');
 var concat = require('gulp-concat');
 var sass = require('gulp-sass');
 var wait = require('gulp-wait');
+var jshint = require('gulp-jshint');
 
 gulp.task('clean', function () {
     return gulp.src('dist', { read: false })
@@ -20,11 +21,13 @@ gulp.task('css-admin', function () {
 
 gulp.task('js-admin', function () {
     return gulp.src('src/admin/js/*.js')
+        .pipe(jshint())
         .pipe(babel({
             "presets": ["@babel/preset-env"]
         }))
         .pipe(concat('socialmediaeverywhere.js'))
-        .pipe(gulp.dest('dist/admin/js/'));
+        .pipe(gulp.dest('dist/admin/js/'))
+        .pipe(jshint.reporter('default'));
 });
 
 gulp.task('css-public', function () {
@@ -36,11 +39,13 @@ gulp.task('css-public', function () {
 
 gulp.task('js-public', function () {
     return gulp.src('src/public/js/*.js')
+        .pipe(jshint())
         .pipe(babel({
             "presets": ["@babel/preset-env"]
         }))
         .pipe(concat('socialmediaeverywhere.js'))
-        .pipe(gulp.dest('dist/public/js/'));
+        .pipe(gulp.dest('dist/public/js/'))
+        .pipe(jshint.reporter('default'));
 });
 
 gulp.task('copy', function () {
@@ -60,3 +65,11 @@ gulp.task('watch', ['install'], function () {
 gulp.task('css', ['css-public', 'css-admin']);
 gulp.task('js', ['js-public', 'js-admin']);
 gulp.task('install', sequence('clean', ['copy', 'css', 'js']));
+
+function safeRun(f) {
+    try {
+        return f();
+    } catch(e) {
+        console.log(e);
+    }
+}

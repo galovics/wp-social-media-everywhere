@@ -20,6 +20,17 @@ class SocialMediaEverywherePopupUtil {
         let html = jQuery('html');
         html.css('overflow', html.data('previous-overflow'));
     }
+
+    static showPopup() {
+        jQuery('#social-media-everywhere-modal').show();
+        SocialMediaEverywherePopupUtil.lockScrolling();
+    }
+
+    
+    static hidePopup() {
+        jQuery('#social-media-everywhere-modal').hide();
+        SocialMediaEverywherePopupUtil.unlockScrolling();
+    }
 }
 
 class SocialMediaEverywherePopupCongfiguration {
@@ -33,6 +44,14 @@ class SocialMediaEverywherePopupCongfiguration {
 
     isBottomPopupEnabled() {
         return SME.popup.bottomPopupEnabled;
+    }
+
+    isTimedPopupEnabled() {
+        return SME.popup.timedPopupEnabled;
+    }
+
+    getTimedPopupMillisecs() {
+        return SME.popup.timedPopupSeconds * 1000;
     }
 }
 
@@ -67,22 +86,21 @@ class SocialMediaEverywherePopupStorage {
     }
 }
 
-class SocialMediaEverywherePopupSettings {
-    static POPUP_ALREADY_SHOWN = 'social-media-everywhere-popup-shown';
-
+class SocialMediaEverywherePopupState { 
     constructor(storage) {
         this.storage = storage;
+        this.POPUP_ALREADY_SHOWN = 'social-media-everywhere-popup-shown';
     }
 
     setPopupAlreadyShown(booleanValue) {
-        storage.set(SocialMediaEverywherePopupSettings.POPUP_ALREADY_SHOWN, booleanValue);
+        this.storage.set(this.POPUP_ALREADY_SHOWN, booleanValue);
     }
 
     isPopupAlreadyShown() {
-        return storage.getBoolean(SocialMediaEverywherePopupSettings.POPUP_ALREADY_SHOWN);
+        return this.storage.getBoolean(this.POPUP_ALREADY_SHOWN);
     }
 }
-
+  
 class SocialMediaEverywhereBottomPopup {
     constructor(settings) {
         this.settings = settings;
@@ -91,48 +109,67 @@ class SocialMediaEverywhereBottomPopup {
     initialize() {
         this.showPopupIfNecessary();
         jQuery(window).scroll(() => this.showPopupIfNecessary());
-    }
+    } 
 
     showPopupIfNecessary() {
         if (!settings.isPopupAlreadyShown()) {
-            if (config.isBottomPopupEnabled()) {
-                let hT = jQuery('#sme-post-bottom').offset().top,
-                    hH = jQuery('#sme-post-bottom').outerHeight(),
-                    wH = jQuery(window).height(),
-                    wS = jQuery(window).scrollTop();
-                if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
-                    settings.setPopupAlreadyShown(true);
-                    jQuery('#social-media-everywhere-modal').show();
-                    SocialMediaEverywherePopupUtil.lockScrolling();
-                }
+            let hT = jQuery('#sme-post-bottom').offset().top,
+                hH = jQuery('#sme-post-bottom').outerHeight(),
+                wH = jQuery(window).height(),
+                wS = jQuery(window).scrollTop();
+            if (wS > (hT + hH - wH) && (hT > wS) && (wS + wH > hT + hH)) {
+                settings.setPopupAlreadyShown(true);
+                SocialMediaEverywherePopupUtil.showPopup();
             }
+        }
+    }
+}
+
+class SocialMediaEverywhereTimedPopup {
+    constructor(state, config) {
+        this.state = state;
+        this.config = config;
+    }
+
+    initialize() {
+        const refThis = this;
+        setTimeout(() => refThis.showPopupIfNecessary(), this.config.getTimedPopupMillisecs())
+    }
+
+    showPopupIfNecessary() {
+        // This check is necessary if the user was already on the once
+        if (!this.state.isPopupAlreadyShown()) {
+            this.state.setPopupAlreadyShown(true);
+            SocialMediaEverywherePopupUtil.showPopup();
         }
     }
 }
 
 jQuery(document).ready(function ($) {
     const config = new SocialMediaEverywherePopupCongfiguration();
-    const storage = new SocialMediaEverywherePopupStorage();
-    const settings = new SocialMediaEverywherePopupSettings(storage);
-    const bottomPopup = new SocialMediaEverywhereBottomPopup(settings);
-
     if (!config.isBlogPost() || !config.isPopupEnabled()) {
         return;
     }
+    
+    const storage = new SocialMediaEverywherePopupStorage();
+    const state = new SocialMediaEverywherePopupState(storage);
+    const bottomPopup = new SocialMediaEverywhereBottomPopup(state);
+    const timedPopup = new SocialMediaEverywhereTimedPopup(state, config);
 
-    if (!storage.exists(dataKey)) {    
-        settings.setPopupAlreadyShown(false);
+    if (!storage.exists(state.POPUP_ALREADY_SHOWN)) {
+        state.setPopupAlreadyShown(false);
     }
 
-    $(window).on('click', function (e) {
+    $(window).on('click', (e) => {
         let element = $('#social-media-everywhere-modal')
         if (e.target == element[0]) {
-            element.hide();
-            SocialMediaEverywherePopupUtil.unlockScrolling();
+            SocialMediaEverywherePopupUtil.hidePopup();
         }
     });
 
     if (config.isBottomPopupEnabled()) {
         bottomPopup.initialize();
+    } else if (config.isTimedPopupEnabled()) {
+        timedPopup.initialize();
     }
 });
