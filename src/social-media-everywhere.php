@@ -1,9 +1,9 @@
 <?php
 /*
   Plugin Name: Social Media Everywhere
-  Plugin URI: http://TODO
+  Plugin URI: https://github.com/galovics/wp-social-media-everywhere
   description: TODO
-  Version: 1.2
+  Version: 1.0
   Author: Arnold Galovics
   Author URI: https://arnoldgalovics.com
   License: GPL2
