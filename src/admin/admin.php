@@ -42,7 +42,7 @@ final class SocialMediaEverywhereAdmin
 
 <div>
     <?php screen_icon(); ?>
-    <h2>Social Media Everywhere settings</h2>
+    <h1>Social Media Everywhere settings</h1>
 
     <form id="sme-settings" method="post" action="options.php">
         <?php settings_fields(SME_OPTIONS_GROUP); ?>
