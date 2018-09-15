@@ -1,9 +1,16 @@
 <?php
 
 include_once SME_PATH . 'public/popup/popup_core.php';
+include_once SME_PATH . 'shared/time_resolver.php';
 
 final class SocialMediaEverywherePublic
 {
+    private $timeResolver;
+
+    public function __construct() {
+        $this->timeResolver = new SocialMediaEverywhereTimeResolver();
+    }
+
     public function setup()
     {
         if ($this->isSMEEnabled()) {
@@ -40,7 +47,8 @@ final class SocialMediaEverywherePublic
                 'enabled' => $this->isPopupEnabled(),
                 'bottomPopupEnabled' => $this->isPopupAtBottomEnabled(),
                 'timedPopupEnabled' => $this->isTimedPopupEnabled(),
-                'timedPopupSeconds' => $this->getTimedPopupSeconds()
+                'timedPopupSeconds' => $this->getTimedPopupSeconds(),
+                'expirationTimeInSeconds' => $this->getPopupExpirationTimeInSeconds()
             )
         ));
     }
@@ -74,5 +82,10 @@ final class SocialMediaEverywherePublic
 
     public function getTimedPopupSeconds() {
         return intval(get_option(SME_POPUP_TIMED_SEC));
+    }
+
+    public function getPopupExpirationTimeInSeconds() {
+        $val = get_option(SME_POPUP_EXPIRATION);
+        return $this->timeResolver->resolve($val);
     }
 }

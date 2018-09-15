@@ -53,12 +53,16 @@ class SocialMediaEverywherePopupCongfiguration {
     getTimedPopupMillisecs() {
         return SME.popup.timedPopupSeconds * 1000;
     }
+
+    getPopupExpirationInMillisec() {
+        return SME.popup.expirationTimeInSeconds * 1000;
+    }
 }
 
 class SocialMediaEverywherePopupStorage {
     constructor() {
-        //this.isStorageAvailable = typeof (Storage) !== "undefined";
-        this.isStorageAvailable = false;
+        this.isStorageAvailable = typeof (Storage) !== "undefined";
+        //this.isStorageAvailable = false;
     }
 
     get(key) {
@@ -70,7 +74,8 @@ class SocialMediaEverywherePopupStorage {
     }
 
     exists(key) {
-        return this.get(key) !== null;
+        const value = this.get(key);
+        return  value !== undefined && value !== null;
     }
 
     getBoolean(key) {
@@ -86,18 +91,58 @@ class SocialMediaEverywherePopupStorage {
     }
 }
 
+class SocialMediaEverywherePopupStateValue {
+    constructor(alreadyShown, createdAt) {
+        this.alreadyShown = alreadyShown;
+        this.createdAt = createdAt;
+    }
+
+    toJSONString() {
+        return JSON.stringify({
+            'alreadyShown': this.alreadyShown,
+            'createdAt': this.createdAt
+        });
+    }
+
+    static fromJSONString(json) {
+        const obj = JSON.parse(json);
+        return new SocialMediaEverywherePopupStateValue(obj.alreadyShown, obj.createdAt);
+    }
+}
+
 class SocialMediaEverywherePopupState { 
-    constructor(storage) {
+    constructor(config, storage) {
+        this.config = config;
         this.storage = storage;
         this.POPUP_ALREADY_SHOWN = 'social-media-everywhere-popup-shown';
     }
 
-    setPopupAlreadyShown(booleanValue) {
-        this.storage.set(this.POPUP_ALREADY_SHOWN, booleanValue);
+    calculateCreatedAt() {
+        return new Date().getTime();
+    }
+
+    initializePopupAlreadyShown() {
+        this.storage.set(this.POPUP_ALREADY_SHOWN, new SocialMediaEverywherePopupStateValue(false, this.calculateCreatedAt()).toJSONString());
+    }
+
+    setPopupAlreadyShown() {
+        this.storage.set(this.POPUP_ALREADY_SHOWN, new SocialMediaEverywherePopupStateValue(true, this.calculateCreatedAt()).toJSONString());
     }
 
     isPopupAlreadyShown() {
-        return this.storage.getBoolean(this.POPUP_ALREADY_SHOWN);
+        return SocialMediaEverywherePopupStateValue.fromJSONString(this.storage.get(this.POPUP_ALREADY_SHOWN)).alreadyShown;
+    }
+
+    expirePopupAlreadyShownIfNecessary() {
+        const state = SocialMediaEverywherePopupStateValue.fromJSONString(this.storage.get(this.POPUP_ALREADY_SHOWN));
+        const alreadyShown = state.alreadyShown;
+        if (alreadyShown) {
+            const createdAt = state.createdAt;
+            const now = new Date().getTime();
+            if (now > (createdAt + this.config.getPopupExpirationInMillisec())) {
+                this.initializePopupAlreadyShown();
+            }    
+        }
     }
 }
   
@@ -152,13 +197,14 @@ jQuery(document).ready(function ($) {
     }
     
     const storage = new SocialMediaEverywherePopupStorage();
-    const state = new SocialMediaEverywherePopupState(storage);
+    const state = new SocialMediaEverywherePopupState(config, storage);
     const bottomPopup = new SocialMediaEverywhereBottomPopup(state);
     const timedPopup = new SocialMediaEverywhereTimedPopup(state, config);
 
     if (!storage.exists(state.POPUP_ALREADY_SHOWN)) {
-        state.setPopupAlreadyShown(false);
+        state.initializePopupAlreadyShown();
     }
+    state.expirePopupAlreadyShownIfNecessary();
 
     $(window).on('click', (e) => {
         let element = $('#social-media-everywhere-modal');
