@@ -20,7 +20,9 @@ final class SocialMediaEverywhereAdmin
     public function addStyle()
     {
         wp_register_style('socialmediaeverywhere', SME_URL . 'admin/css/socialmediaeverywhere.css');
+        wp_register_style('socialmediaeverywhere-fontawesome', 'https://use.fontawesome.com/releases/v5.3.1/css/all.css');
         wp_enqueue_style('socialmediaeverywhere');
+        wp_enqueue_style('socialmediaeverywhere-fontawesome');
     }
 
     public function addScript()

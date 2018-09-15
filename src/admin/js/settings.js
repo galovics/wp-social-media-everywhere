@@ -5,7 +5,7 @@ jQuery(document).ready(function ($) {
     $('#sme-popup-settings #sme-popup-show-settings input').on('change', handlePopupSettingChange);
 
     function handlePopupSettingChange() {
-        const timedPopupSetting = $('#sme-popup-timed-settings');
+        const timedPopupSetting = $('#sme-popup-timing-settings .popup-timed-setting');
         if (isTimedPopupEnabled()) {
             timedPopupSetting.show();
         } else {

@@ -38,7 +38,7 @@
         .settings {
             label {
                 display: inline-block;
-                width: 150px;
+                width: 250px;
             }
             input[type="text"] {
                 width: 350px;
@@ -47,6 +47,52 @@
             .settings-section {                
                 .setting-row {
                     margin-bottom: 5px;
+
+                    .fa-question {
+                        top: -1px;
+                        position: relative;
+
+                        &:hover {
+                            .tooltip {
+                              visibility: visible;
+                              opacity: 1;
+                              transform: translate(-50%, -110%);
+                            }
+                          }
+
+                        .tooltip {
+                            color: $bg-color;
+                            background-color: $text-color;
+                            display: block;
+                            position: absolute;
+                            top: 0;
+                            left: 50%;
+                            padding: 0.8rem 1rem;
+                            border-radius: 3px;
+                            opacity: 0;
+                            pointer-events: none;
+                            transform: translate(-50%, -100%);
+                            transition: all 0.3s ease;
+                            z-index: 5;
+                            width: 250px;
+
+                            .tooltip-title {
+                                margin-top: 5px;
+                                display: inline-block;
+                                border-bottom: 1px solid $bg-color;
+                            }
+
+                            ul {
+                                font-size: 0.9em;
+                                margin: 2px 0;
+                                padding: 0;
+
+                                li {
+                                    margin-bottom: 2px;
+                                }
+                            }
+                        }   
+                    }
                 }
             }
 
@@ -59,4 +105,5 @@
             }
         }
     }
+    
 }
