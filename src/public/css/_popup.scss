@@ -1,7 +1,7 @@
 .social-media-everywhere-modal {
 	display: none;
     position: fixed;
-    z-index: 2;
+    z-index: 9999;
     left: 0;
     top: 0;
     width: 100%;
@@ -13,21 +13,26 @@
 
     & > div {
         margin: 15% auto;
-        width: 700px;
-        height: 220px;
+        width: 585px;
+        min-height: 220px;
         cursor: auto;
         background-color: #7fc242;
         text-align: center;
 
+        @media screen and (max-width: 768px) {
+            width: 80%;   
+        }
+
         & > div{
             padding-top: 50px;
+            padding-bottom: 25px;
             background-color: #FCFCFC;
             margin: 0 auto;
-            width: 680px;
-            height: 220px;
+            width: 95%;
+            min-height: 220px;
             h2 {
                 display: inline-block;
-                width: 600px;
+                width: 95%;
                 border-bottom: 1px solid #EEEEEE;
                 padding-bottom: 10px;
                 font-weight: bold;
@@ -35,7 +40,8 @@
             }
     
             .icons {
-                margin-top: 10px;
+                margin: 10px 10px;
+
 
                 .icon {
                     display: inline-block;
@@ -61,7 +67,7 @@
                     }
 
                     &.social {
-                        margin:0 10px 0 0;
+                        margin: 5px 5px;
                         color:#262626;
                         transition: 0.5s;
                         -moz-transition: 0.5s;
