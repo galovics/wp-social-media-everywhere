@@ -51,3 +51,7 @@ gulp build
 ```
 The `dist` folder will contain the plugin files.
 
+In case you want to have a production type of build which involves minification as well pass the `--prod` parameter to the `gulp` task.
+```
+gulp build --prod
+```
