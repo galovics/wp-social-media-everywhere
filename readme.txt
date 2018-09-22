@@ -8,28 +8,46 @@ Requires PHP: 7.2.9
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-The plugin fulfills all the necessary social media requirements for a WordPress website. You can configure multiple types of accounts and showing a popup which asks your readers to follow you and much more.
-
 == Description ==
-Currently the plugin supports only the following social media platforms:
-- Facebook
-- Google+
-- Twitter
-- LinkedIn
-- Instagram
-- Youtube
+This amazing plugin fulfills all the necessary social media requirements for a WordPress website which eventually helps you to increase the count of your social media followers.
 
-This list will be extended continuously as needed so as the feature set. 
-The plugin is only capable at showing a popup when the user scrolls to the end of a post or it\'s configurable to have a timed popup.
+### Showing a Follow Me popup for users
+The plugin is capable of showing a popup for the users on the posts asking them to follow the author. 
+At the moment, two type of configuration is supported:
+* Show the popup when the user scrolled at the end of a posts
+* Show the popup on a timely basis, like once a week, once a day
 
-Also, it can be set for different needs how many times a user should see the popup, it can be once a day, once a week and so on.
+### Supported social platforms
+Currently the plugin supports the following platforms:
+* Facebook
+* Google+
+* Twitter
+* LinkedIn
+* Instagram
+* Youtube
 
-Feature requests are welcomed.
+### Feature requests or bugs
+Any feature request or bug report is highly [welcomed on GitHub](https://github.com/galovics/wp-social-media-everywhere).
+
+== Screenshots ==
+1. The popup asking the users to follow
 
 == Installation ==
-Install the plugin through the WordPress plugins directly or manually upload the plugin files to the \'wp-content/plugins/wp-social-media-everywhere\' folder.
-Activate the plugin through the ‘Plugins’ screen in WordPress
-Use the Settings->Social Media Everywhere menu to configure the plugin
+=== Within Wordpress ===
+1. Go to 'Plugins -> Add New'
+1. Search for 'Social Media Everywhere'
+1. Activate the plugin
+1. Configure the plugin within 'Settings'
+1. Enjoy!
+
+=== Manually ===
+1. Upload the plugin files to the 'wp-content/plugins/wp-social-media-everywhere' folder
+1. Activate the plugin through the 'Plugins' screen in WordPress
+1. Configure the plugin within 'Settings'
+1. Enjoy!
 
 == Changelog ==
-1.0.0 - First version of the plugin
+= 1.0.1 = 
+* Updated readme 
+= 1.0.0 = 
+* First version of the plugin

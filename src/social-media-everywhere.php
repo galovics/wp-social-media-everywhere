@@ -2,8 +2,8 @@
 /*
   Plugin Name: Social Media Everywhere
   Plugin URI: https://github.com/galovics/wp-social-media-everywhere
-  Description: The plugin fulfills all the necessary social media requirements for a Wordpress website. You can configure multiple types of accounts and showing a popup which asks your readers to follow you and much more.
-  Version: 1.0.0
+  Description: This amazing plugin fulfills all the necessary social media requirements for a WordPress website which eventually helps you to increase the count of your social media followers.
+  Version: 1.0.1
   Author: Arnold Galovics
   Author URI: https://arnoldgalovics.com
   License: GPL2
